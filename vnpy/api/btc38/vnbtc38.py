@@ -42,24 +42,16 @@ PERIOD_ANNUALLY = '400'
 BTC38_TRADE_API = 'http://api.btc38.com/v1/'
 
 # 功能代码
-FUNCTIONCODE_GETACCOUNTINFO = 'get_account_info'
-FUNCTIONCODE_GETORDERS = 'get_orders'
-FUNCTIONCODE_ORDERINFO = 'order_info'
-FUNCTIONCODE_BUY = 'buy'
-FUNCTIONCODE_SELL = 'sell'
-FUNCTIONCODE_BUYMARKET = 'buy_market'
-FUNCTIONCODE_SELLMARKET = 'sell_market'
-FUNCTIONCODE_CANCELORDER = 'cancel_order'
-FUNCTIONCODE_GETNEWDEALORDERS = 'get_new_deal_orders'
-FUNCTIONCODE_GETORDERIDBYTRADEID = 'get_order_id_by_trade_id'
-FUNCTIONCODE_WITHDRAWCOIN = 'withdraw_coin'
-FUNCTIONCODE_CANCELWITHDRAWCOIN = 'cancel_withdraw_coin'
-FUNCTIONCODE_GETWITHDRAWCOINRESULT = 'get_withdraw_coin_result'
-FUNCTIONCODE_TRANSFER = 'transfer'
-FUNCTIONCODE_LOAN = 'loan'
-FUNCTIONCODE_REPAYMENT = 'repayment'
-FUNCTIONCODE_GETLOANAVAILABLE = 'get_loan_available'
-FUNCTIONCODE_GETLOANS = 'get_loans'
+# 获取账户余额
+FUNCTIONCODE_GETMYACCOUNTBALANCE = 'getMyBalance'
+# 挂单
+FUNCTIONCODE_SUBMITORDER = 'submitOrder'
+# 撤单
+FUNCTIONCODE_CANCELORDER = 'cancelOrder'
+# 获取当前自己的挂单
+FUNCTIONCODE_GETORDERLIST = 'getOrderList'
+# 获取自己的成交记录
+FUNCTIONCODE_GETMYTRADELIST = 'getMyTradeList'
 
 
 #----------------------------------------------------------------------
