@@ -621,9 +621,11 @@ class Btc38DataApi(vnbtc38.DataApi):
         if self.market == vnbtc38.MARKETTYPE_CNY:
             self.subscribeQuote(vnbtc38.SYMBOL_BTCCNY)
             self.subscribeQuote(vnbtc38.SYMBOL_LTCCNY)
+            self.subscribeQuote(vnbtc38.SYMBOL_BTSCNY)
 
             self.subscribeDepth(vnbtc38.SYMBOL_BTCCNY, 5)
             self.subscribeDepth(vnbtc38.SYMBOL_LTCCNY, 5)
+            self.subscribeDepth(vnbtc38.SYMBOL_BTSCNY, 5)
 
             contract = VtContractData()
             contract.gatewayName = self.gatewayName
@@ -642,6 +644,17 @@ class Btc38DataApi(vnbtc38.DataApi):
             contract.exchange = EXCHANGE_BTC38
             contract.vtSymbol = '.'.join([contract.symbol, contract.exchange])
             contract.name = u'人民币现货LTC'
+            contract.size = 1
+            contract.priceTick = 0.01
+            contract.productClass = PRODUCT_SPOT
+            self.gateway.onContract(contract)
+
+            contract = VtContractData()
+            contract.gatewayName = self.gatewayName
+            contract.symbol = SYMBOL_BTSCNY
+            contract.exchange = EXCHANGE_BTC38
+            contract.vtSymbol = '.'.join([contract.symbol, contract.exchange])
+            contract.name = u'人民币现货BTS'
             contract.size = 1
             contract.priceTick = 0.01
             contract.productClass = PRODUCT_SPOT
