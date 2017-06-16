@@ -11,9 +11,10 @@ from threading import Thread
 
 
 # 常量定义
-COINTYPE_BTC = 1
-COINTYPE_LTC = 2
-COINTYPE_BTS = 3
+# 币种定义
+COINTYPE_BTC = 'btc'
+COINTYPE_LTC = 'ltc'
+COINTYPE_BTS = 'bts'
 
 ACCOUNTTYPE_CNY = 1
 
@@ -43,7 +44,7 @@ BTC38_TRADE_API = 'http://api.btc38.com/v1/'
 
 # 功能代码
 # 获取账户余额
-FUNCTIONCODE_GETMYACCOUNTBALANCE = 'getMyBalance'
+FUNCTIONCODE_GETMYACCOUNTBALANCE = 'getMyBalance.php'
 # 挂单
 FUNCTIONCODE_SUBMITORDER = 'submitOrder'
 # 撤单
@@ -52,14 +53,20 @@ FUNCTIONCODE_CANCELORDER = 'cancelOrder'
 FUNCTIONCODE_GETORDERLIST = 'getOrderList'
 # 获取自己的成交记录
 FUNCTIONCODE_GETMYTRADELIST = 'getMyTradeList'
-
+# 交易行情API 
+FUNCTIONCODE_TICKER = 'ticker'
+# 市场深度API
+FUNCTIONCODE_DEPTH = 'depth'
+# 历史成交API
+FUNCTIONCODE_TRADES = 'trades'
 
 # ----------------------------------------------------------------------
 def signature(params):
     """生成签名"""
-    params = sorted(params.iteritems(), key=lambda d: d[0], reverse=False)
-    message = urllib.urlencode(params)
-
+    #params = sorted(params.iteritems(), key=lambda d: d[0], reverse=False)
+    #message = urllib.urlencode(params)
+    message = params['key'] + '_' + params['mUserId'] + '_' + params['secret_key'] + '_' + str(params['time'])
+    
     m = hashlib.md5()
     m.update(message)
     m.digest()
@@ -78,6 +85,7 @@ class TradeApi(object):
         """Constructor"""
         self.accessKey = ''
         self.secretKey = ''
+        self.userId = ''
         
         self.active = False         # API工作状态   
         self.reqID = 0              # 请求编号
@@ -93,24 +101,28 @@ class TradeApi(object):
         optional = req['optional']
         
         # 在参数中增加必须的字段
-        params['created'] = long(time())
-        params['access_key'] = self.accessKey
+        params['key'] = self.accessKey
+        params['mUserId'] = self.userId
         params['secret_key'] = self.secretKey
-        params['method'] = method
+        params['time'] = long(time())
         
         # 添加签名
         sign = signature(params)
-        params['sign'] = sign
+        params['md5'] = sign
         del params['secret_key']
+        del params['mUserId']
         
         # 添加选填参数
         if optional:
             params.update(optional)
         
         # 发送请求
-        payload = urllib.urlencode(params)
+        #if params:
+            #payload = urllib.urlencode(params)
 
-        r = requests.post(BTC38_TRADE_API, params=payload)
+        header_info = {'user-agent': 'my-app/0.0.1'}
+
+        r = requests.post(BTC38_TRADE_API + method, data=params, headers=header_info)
         if r.status_code == 200:
             data = r.json()
             return data
@@ -164,11 +176,12 @@ class TradeApi(object):
     ####################################################    
     
     #----------------------------------------------------------------------
-    def init(self, accessKey, secretKey):
+    def init(self, accessKey, secretKey, userId):
         """初始化"""
         self.accessKey = accessKey
         self.secretKey = secretKey
-        
+        self.userId = userId
+
         self.active = True
         self.reqThread.start()
         
@@ -183,10 +196,10 @@ class TradeApi(object):
     #----------------------------------------------------------------------
     def getAccountInfo(self, market='cny'):
         """查询账户"""
-        method = FUNCTIONCODE_GETACCOUNTINFO
+        method = FUNCTIONCODE_GETMYACCOUNTBALANCE
         params = {}
         callback = self.onGetAccountInfo
-        optional = {'market': market}
+        optional = {}
         return self.sendRequest(method, params, callback, optional)
     
     #----------------------------------------------------------------------

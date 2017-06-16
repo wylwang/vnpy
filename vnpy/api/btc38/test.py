@@ -5,13 +5,14 @@ from vnbtc38 import *
 #----------------------------------------------------------------------
 def testTrade():
     """测试交易"""
-    accessKey = ''
-    secretKey = ''
+    accessKey = '2ed222e55ca2b8a33e8dc5a8678d8114'
+    secretKey = '514555929ec1a39d368a4f3901ef343e699285a597addd9364a96b4d26b1ab3b'
+    userId = '194440'
     
     # 创建API对象并初始化
     api = TradeApi()
     api.DEBUG = True
-    api.init(accessKey, secretKey)
+    api.init(accessKey, secretKey, userId)
     
     # 查询账户，测试通过
     api.getAccountInfo()
@@ -62,6 +63,7 @@ def testData():
     
     
 if __name__ == '__main__':
-    #testTrade()
     
-    testData()
+    testTrade()
+    
+    #testData()
