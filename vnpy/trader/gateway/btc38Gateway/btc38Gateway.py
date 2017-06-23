@@ -48,7 +48,7 @@ STATUS_MAP[7] = STATUS_UNKNOWN
 
 ########################################################################
 class Btc38Gateway(VtGateway):
-    """火币接口"""
+    """比特时代接口"""
 
     #----------------------------------------------------------------------
     def __init__(self, eventEngine, gatewayName='BTC38'):
@@ -82,6 +82,7 @@ class Btc38Gateway(VtGateway):
         try:
             accessKey = str(setting['accessKey'])
             secretKey = str(setting['secretKey'])
+            userId = str(setting['userId'])
             interval = setting['interval']
             market = setting['market']
             debug = setting['debug']
@@ -93,7 +94,7 @@ class Btc38Gateway(VtGateway):
             return            
         
         # 初始化接口
-        self.tradeApi.connect(accessKey, secretKey, market, debug)
+        self.tradeApi.connect(accessKey, secretKey, userId, market, debug)
         self.writeLog(u'交易接口初始化成功')
         
         self.dataApi.connect(interval, market, debug)
@@ -444,12 +445,12 @@ class Btc38TradeApi(vnbtc38.TradeApi):
         print data        
     
     #----------------------------------------------------------------------
-    def connect(self, accessKey, secretKey, market, debug=False):
+    def connect(self, accessKey, secretKey, userId, market, debug=False):
         """连接服务器"""
         self.market = market
         self.DEBUG = debug
         
-        self.init(accessKey, secretKey)
+        self.init(accessKey, secretKey, userId)
 
         # 查询未成交委托
         self.getOrders(vnbtc38.COINTYPE_BTC, self.market)

@@ -1,7 +1,7 @@
 {
     "accessKey": "2ed222e55ca2b8a33e8dc5a8678d8114",
     "secretKey": "514555929ec1a39d368a4f3901ef343e699285a597addd9364a96b4d26b1ab3b",
-    "userid": "194440",
+    "userId": "194440",
     "interval": 0.5,
     "market": "cny",
     "debug": false
