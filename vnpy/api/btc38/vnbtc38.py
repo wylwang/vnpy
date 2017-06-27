@@ -46,13 +46,13 @@ BTC38_TRADE_API = 'http://api.btc38.com/v1/'
 # 获取账户余额
 FUNCTIONCODE_GETMYACCOUNTBALANCE = 'getMyBalance.php'
 # 挂单
-FUNCTIONCODE_SUBMITORDER = 'submitOrder'
+FUNCTIONCODE_SUBMITORDER = 'submitOrder.php'
 # 撤单
-FUNCTIONCODE_CANCELORDER = 'cancelOrder'
+FUNCTIONCODE_CANCELORDER = 'cancelOrder.php'
 # 获取当前自己的挂单
-FUNCTIONCODE_GETORDERLIST = 'getOrderList'
+FUNCTIONCODE_GETORDERLIST = 'getOrderList.php'
 # 获取自己的成交记录
-FUNCTIONCODE_GETMYTRADELIST = 'getMyTradeList'
+FUNCTIONCODE_GETMYTRADELIST = 'getMyTradeList.php'
 # 交易行情API 
 FUNCTIONCODE_TICKER = 'ticker'
 # 市场深度API
@@ -205,7 +205,7 @@ class TradeApi(object):
     #----------------------------------------------------------------------
     def getOrders(self, coinType=COINTYPE_BTC, market='cny'):
         """查询委托"""
-        method = FUNCTIONCODE_GETORDERS
+        method = FUNCTIONCODE_GETORDERLIST
         params = {'coin_type': coinType}
         callback = self.onGetOrders
         optional = {'market': market}
@@ -534,11 +534,11 @@ class DataApi(object):
         SYMBOL_BTSCNY: 'http://api.btc38.com/v1/ticker.php?c=bts&mk_type=cny'
     }
     
-    # QUOTE_SYMBOL_URL = {
-    #     SYMBOL_BTCCNY: 'http://api.huobi.com/staticmarket/ticker_btc_json.js',
-    #     SYMBOL_LTCCNY: 'http://api.huobi.com/staticmarket/ticker_ltc_json.js',
-    #     SYMBOL_BTSCNY: 'http://api.huobi.com/usdmarket/ticker_btc_json.js'
-    # }  
+    QUOTE_SYMBOL_URL = {
+        SYMBOL_BTCCNY: 'http://api.btc38.com/v1/ticker.php?c=btc&mk_type=cny',
+        SYMBOL_LTCCNY: 'http://api.btc38.com/v1/ticker.php?c=ltc&mk_type=cny',
+        SYMBOL_BTSCNY: 'http://api.btc38.com/v1/ticker.php?c=bts&mk_type=cny'
+    }  
     
     DEPTH_SYMBOL_URL = {
         SYMBOL_BTCCNY: 'http://api.btc38.com/v1/depth.php?c=btc&mk_type=cny',
